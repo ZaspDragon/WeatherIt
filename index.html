@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1220" />
+  <title>NWS Weather Trading Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar glass">
+      <div>
+        <p class="eyebrow">Mobile weather edge tool</p>
+        <h1>NWS Weather Trading Dashboard</h1>
+      </div>
+      <button id="refreshBtn" class="icon-btn" title="Refresh data" aria-label="Refresh data">↻</button>
+    </header>
+
+    <main class="main-grid">
+      <section class="hero glass">
+        <div class="hero-copy">
+          <p class="eyebrow">Live forecast + actuals</p>
+          <h2 id="heroTemp">--°</h2>
+          <p id="heroSummary">Waiting for location…</p>
+          <div class="hero-actions">
+            <button id="autoLocateBtn" class="primary-btn">Use my location</button>
+            <button id="demoBtn" class="secondary-btn">Load Columbus demo</button>
+          </div>
+        </div>
+        <div class="hero-metrics">
+          <div class="metric-card">
+            <span>Forecast hour</span>
+            <strong id="forecastTemp">--°</strong>
+          </div>
+          <div class="metric-card">
+            <span>Latest observed</span>
+            <strong id="observedTemp">--°</strong>
+          </div>
+          <div class="metric-card">
+            <span>Difference</span>
+            <strong id="deltaTemp">--°</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="controls glass">
+        <div class="controls-header">
+          <h3>Location</h3>
+          <span id="lastUpdated">Not loaded</span>
+        </div>
+        <div class="control-grid">
+          <label>
+            <span>Latitude</span>
+            <input id="latInput" type="number" step="any" placeholder="39.9612" />
+          </label>
+          <label>
+            <span>Longitude</span>
+            <input id="lonInput" type="number" step="any" placeholder="-82.9988" />
+          </label>
+        </div>
+        <div class="control-grid single-row">
+          <label>
+            <span>Refresh interval</span>
+            <select id="intervalSelect">
+              <option value="0">Off</option>
+              <option value="5">Every 5 min</option>
+              <option value="10" selected>Every 10 min</option>
+              <option value="15">Every 15 min</option>
+              <option value="60">Every hour</option>
+            </select>
+          </label>
+        </div>
+        <div class="hero-actions compact">
+          <button id="loadBtn" class="primary-btn">Load dashboard</button>
+        </div>
+        <p class="tiny-note">Tip: for personal use, this works as a static app. Forecasts come from the NWS API; actual observations come from the nearest observation station when available.</p>
+      </section>
+
+      <section class="signal-panel glass">
+        <div class="panel-title-row">
+          <h3>Trading signal</h3>
+          <span id="signalBadge" class="signal neutral">Neutral</span>
+        </div>
+        <div class="signal-body">
+          <p id="signalReason">Load data to compare the current hourly forecast with the latest station observation.</p>
+          <div class="signal-stats">
+            <div>
+              <span>Obs vs forecast</span>
+              <strong id="signalDelta">--</strong>
+            </div>
+            <div>
+              <span>Confidence</span>
+              <strong id="signalConfidence">--</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cards-grid">
+        <section class="panel glass">
+          <div class="panel-title-row">
+            <h3>Next 12 hours</h3>
+            <span id="locationLabel">No location</span>
+          </div>
+          <div id="hourlyList" class="hourly-list empty-state">No forecast loaded yet.</div>
+        </section>
+
+        <section class="panel glass">
+          <div class="panel-title-row">
+            <h3>Forecast breakdown</h3>
+            <span id="officeLabel">Office: --</span>
+          </div>
+          <div class="mini-grid">
+            <div class="mini-stat">
+              <span>Rain chance</span>
+              <strong id="rainChance">--</strong>
+            </div>
+            <div class="mini-stat">
+              <span>Wind</span>
+              <strong id="windValue">--</strong>
+            </div>
+            <div class="mini-stat">
+              <span>Humidity</span>
+              <strong id="humidityValue">--</strong>
+            </div>
+            <div class="mini-stat">
+              <span>Station</span>
+              <strong id="stationName">--</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel glass wide-panel">
+          <div class="panel-title-row">
+            <h3>Notes for weather trading</h3>
+            <span class="subtle">Simple edge view</span>
+          </div>
+          <ul class="notes-list">
+            <li>Use the current hourly forecast as the market expectation baseline.</li>
+            <li>Use the nearest station observation as the latest real-world reading.</li>
+            <li>A warmer actual than forecast can hint the day may be tracking hot; a cooler actual can hint the reverse.</li>
+            <li>Station observations can lag by about 20 minutes, so treat this as a directional tool, not gospel.</li>
+          </ul>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
